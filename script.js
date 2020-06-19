@@ -41,18 +41,14 @@ var lowerCase = false;
 var upperCase = false;
 var numeric = false;
 var specialCharacters = false;
+var choiceArr = [];
 
-var specialCharArr = ['\u0021', '\u0023', '\u0024', '\u0025', '\u0026', '\u002A', '\u002B', '\u003C', '\u003F', '\u003E', '\u003D', '\u0040', '\u005E', '\u007B', '\u007D']; 
-
+var specialCharArr = ['\u0021', '\u0023', '\u0024', '\u0025', '\u0026', '\u002A', '\u002B', '\u003C', '\u003F', '\u003E', '\u003D', '\u0040', '\u005E', '\u007B', '\u007D'];
 var lowerCaseArr = ['\u0061', '\u0062', '\u0063', '\u0064', '\u0065', '\u0066', '\u0067', '\u0068', '\u0069', '\u006A', '\u006B', '\u006C', '\u006D', '\u006E', '\u006F', '\u0070', '\u0071', '\u0072', '\u0073', '\u0074', '\u0075', '\u0076', '\u0077', '\u0078', '\u0079', '\u007A'];
-
 var upperCaseArr = ['\u0041', '\u0042', '\u0043', '\u0044', '\u0045', '\u0046', '\u0047', '\u0048', '\u0049', '\u004A', '\u004B', '\u004C', '\u004D', '\u004E', '\u004F', '\u0050', '\u0051', '\u0052', '\u0053', '\u0054', '\u0055', '\u0056', '\u0057', '\u0058', '\u0059', '\u005A'];
+var numberArr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
 
-//HELPER FUNCTIONS
-function randomLower() { return lowerCaseArr[Math.floor(Math.random() * lowerCaseArr.length)]; }
-function randomUpper() { return upperCaseArr[Math.floor(Math.random() * upperCaseArr.length)]; }
-function randomSpecialCharacter() { return specialCharArr[Math.floor(Math.random() * specialCharArr.length)]; }
-function randomNumber() { return Math.floor(Math.random() * 10); }
+
 
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
@@ -61,10 +57,11 @@ generateBtn.addEventListener("click", writePassword);
 
 // Write password to the #password input
 function writePassword() {
+  choiceArr = [];
   var passwordText = document.querySelector("#password");
   var correctPrompt = getPrompts();
-  
-  if(correctPrompt) {
+
+  if (correctPrompt) {
     var password = generatePassword();
     passwordText.value = password;
     passwordText.setAttribute("class", "password");
@@ -74,170 +71,33 @@ function writePassword() {
   }
 }
 
-
 function generatePassword() {
-  var result = "";
-
-  //if the password only has lowerCase letters
-  if (lowerCase && !upperCase && !specialCharacters && !numeric) {
-    for (var i = 0; i < characterLength; i++) {
-      result = result + randomLower();
-    }
-    return result;
+  var password = "";
+  for (let i = 0; i < characterLength; i++) {
+    var randomLetter = (Math.floor(Math.random() * choiceArr.length));
+    password += choiceArr[randomLetter];
   }
-  //if the password only has upperCase letters
-   else if (!lowerCase && upperCase && !specialCharacters && !numeric) {
-    for (var i = 0; i < characterLength; i++) {
-      result = result + randomUpper();
-    }
-    return result;
-  }
-  //if the password only has specialCharacters
-  else if (!lowerCase && !upperCase && specialCharacters && !numeric) {
-    for (var i = 0; i < characterLength; i++) {
-      result = result + randomSpecialCharacter();
-    }
-    return result;
-  }
-  //if the password only has numbers
-  else if (!lowerCase && !upperCase && !specialCharacters && numeric) {
-    for (var i = 0; i < characterLength; i++) {
-      result = result + randomNumber();
-    }
-    return result;
-  }
-
-  //if the password is made up of lowercase and uppercase letters
-  else if (lowerCase && upperCase && !specialCharacters && !numeric) {
-    for (var i = 0; i < characterLength; i++) {
-      var decider = Math.floor(Math.random() * 2);
-      if (decider === 0) result = result + randomLower();
-      else result = result + randomUpper();
-    }
-    return result;
-  }
-
-  //if the password is made up lowercase letters and special characters
-  else if (lowerCase && !upperCase && specialCharacters && !numeric) {
-    for (var i = 0; i < characterLength; i++) {
-      var decider = Math.floor(Math.random() * 2);
-      if (decider === 0) result = result + randomLower();
-      else result = result + randomSpecialCharacter();
-    }
-    return result;
-  }
-
-  //if the password is made up lowercase letters and numbers
-  else if (lowerCase && !upperCase && !specialCharacters && numeric) {
-    for (var i = 0; i < characterLength; i++) {
-      var decider = Math.floor(Math.random() * 2);
-      if (decider === 0) result = result + randomLower();
-      else result = result + randomNumber();
-    }
-    return result;
-  }
-
-  //if the password is made up special characters and numbers
-  else if (!lowerCase && !upperCase && specialCharacters && numeric) {
-    for (var i = 0; i < characterLength; i++) {
-      var decider = Math.floor(Math.random() * 2);
-      if (decider === 0) result = result + randomSpecialCharacter();
-      else result = result + randomNumber();
-    }
-    return result;
-  }
-
-  //if the password is made up upperCase letters and numbers
-  else if (!lowerCase && upperCase && !specialCharacters && numeric) {
-    for (var i = 0; i < characterLength; i++) {
-      var decider = Math.floor(Math.random() * 2);
-      if (decider === 0) result = result + randomUpper();
-      else result = result + randomNumber();
-    }
-    return result;
-  }
-
-  //if the password is made up upperCase letters and special characters
-  else if (!lowerCase && upperCase && specialCharacters && !numeric) {
-    for (var i = 0; i < characterLength; i++) {
-      var decider = Math.floor(Math.random() * 2);
-      if (decider === 0) result = result + randomUpper();
-      else result = result + randomSpecialCharacter();
-    }
-    return result;
-  }
-
-  //if the password is made up of lowercase, uppercase, and special characters
-  else if (lowerCase && upperCase && specialCharacters && !numeric) {
-    for (var i = 0; i < characterLength; i++) {
-      var decider = Math.floor(Math.random() * 3);
-      if (decider === 0) result = result + randomLower();
-      if (decider === 1) result = result + randomUpper();
-      else result = result + randomSpecialCharacter();
-    }
-    return result;
-  }
-
-  //if the password is made up of lowercase, uppercase, and numbers
-  else if (lowerCase && upperCase && !specialCharacters && numeric) {
-    for (var i = 0; i < characterLength; i++) {
-      var decider = Math.floor(Math.random() * 3);
-      if (decider === 0) result = result + randomLower();
-      if (decider === 1) result = result + randomUpper();
-      else result = result + randomNumber();
-    }
-    return result;
-  }
-
-   //if the password is made up of lowercase, special characters, and numbers
-   else if (lowerCase && !upperCase && specialCharacters && numeric) {
-    for (var i = 0; i < characterLength; i++) {
-      var decider = Math.floor(Math.random() * 3);
-      if (decider === 0) result = result + randomLower();
-      if (decider === 1) result = result + randomSpecialCharacter();
-      else result = result + randomNumber();
-    }
-    return result;
-  }
-
-  //if the password is made up of lowercase, special characters, and numbers
-  else if (!lowerCase && upperCase && specialCharacters && numeric) {
-    for (var i = 0; i < characterLength; i++) {
-      var decider = Math.floor(Math.random() * 3);
-      if (decider === 0) result = result + randomUpper();
-      if (decider === 1) result = result + randomSpecialCharacter();
-      else result = result + randomNumber();
-    }
-    return result;
-  }
-
-   //if the password is made up of lower, upper, special, and numbers
-   else {
-    for (var i = 0; i < characterLength; i++) {
-      var decider = Math.floor(Math.random() * 4);
-      if (decider === 0) result = result + randomLower();
-      if (decider === 1) result = result + randomUpper();
-      if (decider === 2) result = result + randomSpecialCharacter();
-      else result = result + randomNumber();
-    }
-    return result;
-  }
-  return result; //it shouldn't get to this point
-
+  return password;
 }
 
 function getPrompts() {
-  characterLength = parseInt(prompt("How many characters do you want your pass word to be? (From 8 - 128 characters"));
-
+  characterLength = parseInt(prompt("How many characters do you want your pass word to be? (From 8 128 characters"));
   if (isNaN(characterLength) || characterLength < 8 || characterLength > 128) {
     alert("Character length has to be a number, 8 - 128 digits. Please try again.")
     return false;
   }
-
-  lowerCase = confirm("Would you like lowercase letters in your password?");
-  upperCase = confirm("Would you like upper case letters in your password?");
-  numeric = confirm("Would you like numeric characters (1, 2, 3,...) in your password?");
-  specialCharacters = confirm("Would you like special characters (!, @, #, ...) in your password?");
+  if (confirm("Would you like lowercase letters in your password?")) {
+    choiceArr = choiceArr.concat(lowerCaseArr);
+  }
+  if (confirm("Would you like upper case letters in your password?")) {
+    choiceArr = choiceArr.concat(upperCaseArr);
+  }
+  if (confirm("Would you like numeric characters (1, 2, 3,...) in your password?")) {
+    choiceArr = choiceArr.concat(numberArr);
+  }
+  if (confirm("Would you like special characters (!, @, #, ...) in your password?")) {
+    choiceArr = choiceArr.concat(specialCharArr);
+  }
   return true;
 }
 
