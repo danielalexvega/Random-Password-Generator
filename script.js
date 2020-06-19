@@ -42,7 +42,7 @@ var upperCase = false;
 var numeric = false;
 var specialCharacters = false;
 
-var specialCharArr = ['\u0021', '\u0023', '\u0024', '\u0025', '\u0026', '\u002A', '\u002B', '\u003C', '\u003F', '\u003E', '\u003D', '\u0040', '\u005E', '\u007B', '\u007D'];
+var specialCharArr = ['\u0021', '\u0023', '\u0024', '\u0025', '\u0026', '\u002A', '\u002B', '\u003C', '\u003F', '\u003E', '\u003D', '\u0040', '\u005E', '\u007B', '\u007D']; 
 
 var lowerCaseArr = ['\u0061', '\u0062', '\u0063', '\u0064', '\u0065', '\u0066', '\u0067', '\u0068', '\u0069', '\u006A', '\u006B', '\u006C', '\u006D', '\u006E', '\u006F', '\u0070', '\u0071', '\u0072', '\u0073', '\u0074', '\u0075', '\u0076', '\u0077', '\u0078', '\u0079', '\u007A'];
 
@@ -56,11 +56,14 @@ function randomNumber() { return Math.floor(Math.random() * 10); }
 
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
+// Add event listener to generate button
+generateBtn.addEventListener("click", writePassword);
 
 // Write password to the #password input
 function writePassword() {
   var passwordText = document.querySelector("#password");
   var correctPrompt = getPrompts();
+  
   if(correctPrompt) {
     var password = generatePassword();
     passwordText.value = password;
@@ -70,9 +73,6 @@ function writePassword() {
     passwordText.setAttribute("class", "");
   }
 }
-
-// Add event listener to generate button
-generateBtn.addEventListener("click", writePassword);
 
 
 function generatePassword() {
@@ -227,15 +227,22 @@ function generatePassword() {
 }
 
 function getPrompts() {
-  characterLength = parseInt(prompt("How many characters do you want your pass word to be? (From 8 128 characters"));
+  characterLength = parseInt(prompt("How many characters do you want your pass word to be? (From 8 - 128 characters"));
+
   if (isNaN(characterLength) || characterLength < 8 || characterLength > 128) {
     alert("Character length has to be a number, 8 - 128 digits. Please try again.")
     return false;
   }
+
   lowerCase = confirm("Would you like lowercase letters in your password?");
-  console.log(lowerCase);
   upperCase = confirm("Would you like upper case letters in your password?");
   numeric = confirm("Would you like numeric characters (1, 2, 3,...) in your password?");
   specialCharacters = confirm("Would you like special characters (!, @, #, ...) in your password?");
   return true;
 }
+
+
+
+
+
+
